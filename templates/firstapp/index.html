@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <div id="messages" class="mess"></div>
+    <form  enctype="multipart/form-data"  submit="return Validate();" name= "forms" id="myform" action="/register/" method="POST">
+        {% csrf_token %}
+     <table border="1" align="center" width="400" bgcolor="#CCCCCC" >
+      <caption>Registration form</caption>
+        <tr>
+           <th>Enter your first name</th>
+           <td><input type="text" name="name" id="fn1" maxlength="10" title="enter your first name" placeholder="enter your first name" autocomplete="off" /></td>
+        </tr>
+        <tr>
+           <th>Enter your last name</th>
+           <td><input type="text" id="lastname" autocomplete="off" name="ln"  /></td>
+        </tr>
+        <tr>
+           <th>Enter your password</th>
+           <td><input type="password" id="password" maxlength="15" autocomplete="off" name="password" /></td>
+        </tr>
+        <tr>
+            <th>ReEnter your password</th>
+            <td><input type="password" id="confirm" maxlength="15" autocomplete="off" name="cp" /></td>
+        </tr>
+        <tr>
+            <th>Enter your email</th>
+            <td><input type="email" name="email" autocomplete="off" id="email"  /></td>
+        </tr>
+        <tr>
+            <th>Enter your mobile</th>
+            <td><input type="number"name="num" autocomplete="off" id="num"  /></td>
+        </tr>
+        <tr>
+            <th>Enter your address</th>
+            <td><textarea rows="8" cols="20" maxlength="25" name="address" id="address" required></textarea></td>
+        </tr>
+        <tr>
+            <th>Select your gender</th>
+            <td>
+             male<input type="radio" name="g" value="male" id ="gender" required/>
+            female<input type="radio" name="g" value="female"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Select your hobbies</th>
+            <td>
+            hobby1<input type="checkbox" name="x[]" value="hobby1" id="hobbies" required/>
+            hobby2<input type="checkbox" name="x[]" value="hobby2"/>
+            hobby3<input type="checkbox" name="x[]" value="hobby3"/>
+           </td>
+        </tr>
+        <tr>
+            <th>Select your DOB</th>
+            <td><input type="date" name="datetoday" autocomplete="off" placeholder="dd/mm/yyyy" id ="dob"/></td>
+        </tr>
+        <tr>
+            <th>Select your Country</th>
+            <td>
+            <select name="country" required>
+            <option value="" selected="selected" disabled="disabled" name="country" id ="country" >select </option>
+            <option value="India">India</option>
+            <option value="Pakistan">Pakistan</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Upload your pic</th>
+            <td><input type="file" name="file" id ="file"/></td>
+        </tr>
+        <tr>
+             <td colspan="2" align="center"><input type="submit" value="Save My Data" id="save"/>
+             <input type="reset" value="Reset Data"/>
+             </td>
+        </tr>
+            
+     </table> <br>
+
+     <h2 style="background-color: aquamarine;text-align: center;">{{ message }}</h2>
+        
+        </form>
+    <script type="text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#fn1").blur(
+            function firstname(){
+                var first = $("input[name =name]").val()
+                if(first == ""){
+                  $(".mess").html("FILL IN FIRST NAME").css({"color":"red"})
+                  $("input[name =name]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =name]").css({"border-color":"green"}) 
+                    $(".mess").html("")
+                    return true  
+                }
+            })
+            $("#lastname").blur(
+            function lastname(){
+                var last = $("input[name =ln]").val()
+                if(last == ""){
+                  $(".mess").html("FILL IN LAST NAME").css({"color":"red"})
+                  $("input[name =ln]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =ln]").css({"border-color":"green"})   
+                    $(".mess").html("")
+                    return true
+                }
+            })
+            $("#password").blur(
+            function password(){
+                var pass = $("input[name =password]").val()
+                if(pass == ""){
+                  $(".mess").html("FILL IN PASSWORD").css({"color":"red"})
+                  $("input[name =password]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =password]").css({"border-color":"green"}) 
+                    $(".mess").html("") 
+                    return true 
+                }
+            })
+            $("#confirm").blur(
+            function password2(){
+                var pass2 = $("input[name =cp]").val()
+                var pass = $("input[name =password]").val()
+                if(pass2 == ""){
+                  $(".mess").html(" INVALID PASSWORD ").css({"color":"red"})
+                  $("input[name =cp]").css({"border-color":"red"})
+                  return false
+                }
+                if(pass !== pass2){
+                  $(".mess").html("PASSWORDS DONT MATCH").css({"color":"red"})
+                  $("input[name =cp]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =cp]").css({"border-color":"green"}) 
+                    $(".mess").html("") 
+                    return true 
+                }
+            })
+            $("#email").blur(
+            function email(){
+                var emailing = $("input[name =email]").val()
+                if(emailing == ""){
+                  $(".mess").html("FILL IN EMAIL").css({"color":"red"})
+                  $("input[name =email]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =email]").css({"border-color":"green"})   
+                    $(".mess").html("")
+                    return true
+                }
+            })
+            $("#num").blur(
+            function mobile(){
+                var mob = $("input[name =num]").val()
+                if(mob== ""){
+                  $(".mess").html("FILL IN MOBILE NUMBER").css({"color":"red"})
+                  $("input[name =num]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =num]").css({"border-color":"green"}) 
+                    $(".mess").html("")
+                    return true 
+                }
+            })
+            $("#address").blur(
+            function address(){
+                var add = $("input[name =address]").val()
+                if(add == ""){
+                  $(".mess").html("FILL IN ADDRESS").css({"color":"red"})
+                  $("input[name = address]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =address]").css({"border-color":"green"})  
+                    $(".mess").html("") 
+                    return true
+                }
+            })
+            $("#country").blur(
+            function country(){
+                var count = $("select[name =country]").val()
+                if(count == "select"){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $("input[name =country]").css({"background-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =country]").css({"border-color":"green"}) 
+                    $(".mess").html("")
+                    return true  
+                }
+            })
+            $("#gender").blur(
+            function gender(){
+                var gen = $("input[name = g]: checked").val()
+                if(gen.length == 0){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $("input[name = g]: checked").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name = g]: checked").css({"border-color":"green"})   
+                    $(".mess").html("")
+                    return true
+                }
+            })
+            $("#hobbies").blur(
+            function hobbies(){
+                var hob = $('input:checkbox[name ="x[]"]:checked')
+                if(hob.length == 0){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $('input:checkbox[name ="x[]"]:checked').css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $('input:checkbox[name ="x[]"]:checked').css({"border-color":"green"}) 
+                    $(".mess").html("") 
+                    return true 
+                }
+            })
+            $("#dob").blur(
+            function dob(){
+                var date = $("input[name =datetoday]").val()
+                if(date == ""){
+                  $(".mess").html("FILL IN DATE").css({"color":"red"})
+                  $("input[name = datetoday]").css({"border-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name = datetoday]").css({"border-color":"green"}) 
+                    $(".mess").html("")
+                    return true  
+                }
+            })
+            $("#file").blur(
+            function file(){
+                var file = $("input[name = file]").val()
+                if(file== ""){
+                  $(".mess").html("NO FILE CHOSEN").css({"color":"red"})
+                  $("input[name =file]").css({"background-color":"red"})
+                  return false
+                }
+                else{
+                    $("input[name =file]").css({"background-color":"green"}) 
+                    
+                    $(".mess").html("")
+                    return true  
+                }
+            })
+            
+            $("#myform").submit(function(e){
+                var file = $("input[name = file]").val()
+                if(file== ""){
+                  $(".mess").html("NO FILE CHOSEN").css({"color":"red"})
+                  $("input[name =file]").css({"background-color":"red"})
+                  return false
+                }
+                var pass = $("input[name =password]").val()
+                if(pass == ""){
+                  $(".mess").html("FILL IN PASSWORD").css({"color":"red"})
+                  $("input[name =password]").css({"border-color":"red"})
+                  return false
+                }
+              
+                var pass2 = $("input[name =cp]").val()
+                var pass = $("input[name =password]").val()
+                if(pass2 == ""){
+                  $(".mess").html(" INVALID PASSWORD ").css({"color":"red"})
+                  $("input[name =cp]").css({"border-color":"red"})
+                  return false
+                }
+                if(pass !== pass2){
+                  $(".mess").html("PASSWORDS DONT MATCH").css({"color":"red"})
+                  $("input[name =cp]").css({"border-color":"red"})
+                  return false
+                }
+                                
+                var first = $("input[name =name]").val()
+                if(first == ""){
+                  $(".mess").html("FILL IN FIRST NAME").css({"color":"red"})
+                  $("input[name =name]").css({"border-color":"red"})
+                  return false
+                }
+                
+                var last = $("input[name =ln]").val()
+                if(last == ""){
+                  $(".mess").html("FILL IN LAST NAME").css({"color":"red"})
+                  $("input[name =ln]").css({"border-color":"red"})
+                  return false
+                }
+                
+                var emailing = $("input[name =email]").val()
+                if(emailing == ""){
+                  $(".mess").html("FILL IN EMAIL").css({"color":"red"})
+                  $("input[name =email]").css({"border-color":"red"})
+                  return false
+                }
+               
+                var mob = $("input[name =num]").val()
+                if(mob== ""){
+                  $(".mess").html("FILL IN MOBILE NUMBER").css({"color":"red"})
+                  $("input[name =num]").css({"border-color":"red"})
+                  return false
+                }
+    
+                var add = $("input[name =address]").val()
+                if(add == ""){
+                  $(".mess").html("FILL IN ADDRESS").css({"color":"red"})
+                  $("input[name = address]").css({"border-color":"red"})
+                  return false
+                }
+             
+                var count = $("select[name =country]").val()
+                if(count == "select"){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $("input[name =country]").css({"background-color":"red"})
+                  return false
+                }
+               
+                var gen = $("input[name = g]: checked").val()
+                if(gen.length == 0){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $("input[name = g]: checked").css({"border-color":"red"})
+                  return false
+                }
+               
+                var date = $("input[name =datetoday]").val()
+                if(date == ""){
+                  $(".mess").html("FILL IN DATE").css({"color":"red"})
+                  $("input[name = datetoday]").css({"border-color":"red"})
+                  return false
+                }
+            
+                var hob = $('input:checkbox[name ="x[]"]:checked')
+                if(hob.length == 0){
+                  $(".mess").html("PLEASE SELECT").css({"color":"red"})
+                  $('input:checkbox[name ="x[]"]:checked').css({"border-color":"red"})
+                  return false
+                }
+                else{
+                   
+                    return true 
+                }
+            })
+            
+        })
+    </script>
+    {% endblock %}
+</body>
+</html>
